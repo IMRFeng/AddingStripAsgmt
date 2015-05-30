@@ -9,7 +9,10 @@ namespace AddingStripAsgmt
     //data type that holds literal code for allowable operators
 
     /// <summary> class CalcLine
-    /// class to represent individual lines in an adding strip calculation
+    /// Class to represent individual lines in an adding strip calculation, offered by Lecturer.
+    /// 
+    /// Author: Simon Dacey
+    /// Created Date: 13/5/2015
     /// </summary>
     public class CalcLine
     {

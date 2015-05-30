@@ -8,10 +8,18 @@ using System.IO;
 
 namespace AddingStripAsgmt
 {
+    /// <summary>
+    /// Handle the requirements for the calculation as a whole.
+    /// 
+    /// Author: Victor Feng
+    /// Email: VictorF@foxmail.com
+    /// Created Date: 13/5/2015
+    /// </summary>
     class Calculation
     {
         private ArrayList theCalcs;
         private ListBox lstDisplay;
+        public bool saved;
 
         /// <summary>
         /// Constructor initializes the reference to the listbox and starts a new ArrayList
@@ -20,6 +28,7 @@ namespace AddingStripAsgmt
         public Calculation(ListBox lb)
         {
             lstDisplay = lb;
+            saved = true;
             theCalcs = new ArrayList();
         }
 
@@ -29,6 +38,7 @@ namespace AddingStripAsgmt
         /// <param name="cl">CalcLine</param>
         public void Add(CalcLine cl)
         {
+            saved = false;
             this.theCalcs.Add(cl);
             this.Redisplay();
         }
@@ -43,7 +53,7 @@ namespace AddingStripAsgmt
         }
 
         /// <summary>
-        /// 
+        /// Get subtotal(#) or total(=)
         /// </summary>
         /// <returns></returns>
         public double obtainTotal()
@@ -111,6 +121,7 @@ namespace AddingStripAsgmt
         /// <param name="n">int</param>
         public void Replace(CalcLine newCalc, int n)
         {
+            saved = false;
             this.theCalcs.RemoveAt(n);
             this.theCalcs.Insert(n, newCalc);
             this.Redisplay();
@@ -124,6 +135,7 @@ namespace AddingStripAsgmt
         /// <param name="n">int</param>
         public void Insert(CalcLine newCalc, int n)
         {
+            saved = false;
             this.theCalcs.Insert(n, newCalc);
             this.Redisplay();
         }
@@ -134,6 +146,7 @@ namespace AddingStripAsgmt
         /// <param name="n">int</param>
         public void Delete(int n)
         {
+            saved = false;
             this.theCalcs.RemoveAt(n);
             this.Redisplay();
         }

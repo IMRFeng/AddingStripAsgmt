@@ -12,6 +12,13 @@ using System.IO;
 
 namespace AddingStripAsgmt
 {
+    /// <summary>
+    /// A class for the main form 
+    /// 
+    /// Author: Victor Feng
+    /// Email: VictorF@foxmail.com
+    /// Created Date: 13/5/2015
+    /// </summary>
     public partial class AddStripForm : Form
     {
         private Calculation cal;
@@ -74,21 +81,34 @@ namespace AddingStripAsgmt
 
         private void mnuNew_Click(object sender, EventArgs e)
         {
-            lstDisplay.DataSource = null;
-            cal.Clear();
-            txtValue.Text = "";
-            txtChangeValue.Text = "";
+            if (!cal.saved)
+            {
+                if (MessageBox.Show("You have not save your changed data. Confirm?", "New Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    lstDisplay.DataSource = null;
+                    cal.Clear();
+                    txtValue.Text = "";
+                    txtChangeValue.Text = "";
+                }
+            }            
         }
 
         private void mnuOpen_Click(object sender, EventArgs e)
         {
-            if (openOptDlg.ShowDialog() == DialogResult.OK)
+            if (!cal.saved)
             {
-                txtValue.Text = "";
-                txtChangeValue.Text = "";
+                if (MessageBox.Show("You have not save your changed data. Confirm?", "Open File", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    if (openOptDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        txtValue.Text = "";
+                        txtChangeValue.Text = "";
 
-                cal.LoadFromFile(openOptDlg.FileName);
+                        cal.LoadFromFile(openOptDlg.FileName);
+                    }
+                }
             }
+
         }
 
         private void mnuSave_Click(object sender, EventArgs e)
@@ -97,11 +117,13 @@ namespace AddingStripAsgmt
             {
                 if (saveOptDlg.ShowDialog() == DialogResult.OK)
                 {
+                    cal.saved = true;
                     cal.SaveToFile(saveOptDlg.FileName);
                 }
             }
             else
             {
+                cal.saved = true;
                 cal.SaveToFile(saveOptDlg.FileName);
             }
         }
@@ -110,6 +132,7 @@ namespace AddingStripAsgmt
         {
             if (saveOptDlg.ShowDialog() == DialogResult.OK)
             {
+                cal.saved = true;
                 cal.SaveToFile(saveOptDlg.FileName);
             }
         }
@@ -244,7 +267,7 @@ namespace AddingStripAsgmt
 
         private void lstDisplay_Click(object sender, EventArgs e)
         {
-            if (cal.obtainTheCalsSize() > 0)
+            if (cal.obtainTheCalsSize() > 0 && lstDisplay.SelectedItem != null)
             {
                 string displayedText = lstDisplay.SelectedItem.ToString();
                 if (displayedText.IndexOf('<') == -1)
@@ -256,6 +279,18 @@ namespace AddingStripAsgmt
                     txtChangeValue.Text = "";
                 }
             }
+        }
+
+        private void AddStripForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!cal.saved)
+            {
+                if (MessageBox.Show("You have not save your changed data. Confirm?", "Close Application", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+            
         }
 
     }

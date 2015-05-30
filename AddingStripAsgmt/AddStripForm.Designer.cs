@@ -245,6 +245,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "AddStripForm";
             this.Text = "AddStrip";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddStripForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
