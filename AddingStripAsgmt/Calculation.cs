@@ -181,42 +181,42 @@ namespace AddingStripAsgmt
             this.theCalcs.Clear(); //Clear the ArrayList
 
             StreamReader sr = new StreamReader(filename);
-            string personData = sr.ReadLine();
+            string addStripData = sr.ReadLine();
             string errorMsg = "";
 
-            while (personData != null)
+            while (addStripData != null)
             {
-                if (personData.Length == 1 && (personData.Equals("#") || personData.Equals("=")))
+                if (addStripData.Length == 1 && (addStripData.Equals("#") || addStripData.Equals("=")))
                 {
-                    CalcLine cl = new CalcLine(personData);
+                    CalcLine cl = new CalcLine(addStripData);
                     cl.total = this.obtainTotal();
                     this.Add(cl);
 
-                    personData = sr.ReadLine();// Read line by line
+                    addStripData = sr.ReadLine();// Read line by line
                     continue;
                 }
 
                 double otxtValue = 0;
-                if (personData.Length > 1 && !double.TryParse(personData.Substring(1), out otxtValue))
+                if (addStripData.Length > 1 && !double.TryParse(addStripData.Substring(1), out otxtValue))
                 {
                     errorMsg = "The value of following a operator must be a number!";
                     break;
                 }
 
-                char firstCharacter = personData[0];
+                char firstCharacter = addStripData[0];
                 if (this.obtainTheCalsSize() == 0 && (firstCharacter == '+' || firstCharacter == '-'))
                 {
-                    if (personData.Length > 1)
+                    if (addStripData.Length > 1)
                     {
-                        CalcLine cl = new CalcLine(personData);
+                        CalcLine cl = new CalcLine(addStripData);
                         this.Add(cl);
                     }
                 }
                 else if (this.obtainTheCalsSize() > 0 && (firstCharacter == '+' || firstCharacter == '-' || firstCharacter == '*' || firstCharacter == '/'))//check if the txtValue starts with + and -.
                 {
-                    if (personData.Length > 1)
+                    if (addStripData.Length > 1)
                     {
-                        CalcLine cl = new CalcLine(personData);
+                        CalcLine cl = new CalcLine(addStripData);
                         this.Add(cl);
                     }
                 }
@@ -226,7 +226,7 @@ namespace AddingStripAsgmt
                     break;
                 }
 
-                personData = sr.ReadLine();// Read line by line
+                addStripData = sr.ReadLine();// Read line by line
             }
 
             if (!errorMsg.Equals(""))

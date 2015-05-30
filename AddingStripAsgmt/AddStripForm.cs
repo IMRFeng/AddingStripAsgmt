@@ -204,22 +204,7 @@ namespace AddingStripAsgmt
                 }
             }
         }
-
-        private void addNewRowForOpenDlg(string strValue)
-        {
-            double otxtValue = 0;
-
-            if (strValue.Length > 1 && !double.TryParse(strValue.Substring(1), out otxtValue))
-            {
-                MessageBox.Show("The value of following a operator must be a number!");
-                return; ;
-            }
-
-            CalcLine cl = new CalcLine(strValue);
-            cal.Add(cl);
-                        
-        }
-
+        
         private void addNewRow(char lastCharacter)
         {
             int txtValueLenght = txtValue.Text.Length;
