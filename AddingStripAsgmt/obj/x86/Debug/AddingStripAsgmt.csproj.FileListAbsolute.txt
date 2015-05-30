@@ -1,0 +1,7 @@
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\bin\Debug\AddingStripAsgmt.exe
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\bin\Debug\AddingStripAsgmt.pdb
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\obj\x86\Debug\AddingStripAsgmt.AddStripForm.resources
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\obj\x86\Debug\AddingStripAsgmt.Properties.Resources.resources
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\obj\x86\Debug\AddingStripAsgmt.csproj.GenerateResource.Cache
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\obj\x86\Debug\AddingStripAsgmt.exe
+C:\Temp\AddingStripAsgmt\AddingStripAsgmt\obj\x86\Debug\AddingStripAsgmt.pdb

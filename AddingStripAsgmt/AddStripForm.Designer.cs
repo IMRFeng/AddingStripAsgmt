@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddStripForm));
             this.lstDisplay = new System.Windows.Forms.ListBox();
             this.lblCaculations = new System.Windows.Forms.Label();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -49,6 +50,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.openOptDlg = new System.Windows.Forms.OpenFileDialog();
             this.saveOptDlg = new System.Windows.Forms.SaveFileDialog();
+            this.prDoc = new System.Drawing.Printing.PrintDocument();
+            this.PreviewDlg = new System.Windows.Forms.PrintPreviewDialog();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -227,6 +230,21 @@
             this.saveOptDlg.Filter = "(*.cal)|*.cal";
             this.saveOptDlg.InitialDirectory = "C:\\temp";
             // 
+            // prDoc
+            // 
+            this.prDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.prDoc_PrintPage);
+            // 
+            // PreviewDlg
+            // 
+            this.PreviewDlg.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.PreviewDlg.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.PreviewDlg.ClientSize = new System.Drawing.Size(400, 300);
+            this.PreviewDlg.Document = this.prDoc;
+            this.PreviewDlg.Enabled = true;
+            this.PreviewDlg.Icon = ((System.Drawing.Icon)(resources.GetObject("PreviewDlg.Icon")));
+            this.PreviewDlg.Name = "PreviewDlg";
+            this.PreviewDlg.Visible = false;
+            // 
             // AddStripForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -276,6 +294,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.OpenFileDialog openOptDlg;
         private System.Windows.Forms.SaveFileDialog saveOptDlg;
+        private System.Drawing.Printing.PrintDocument prDoc;
+        private System.Windows.Forms.PrintPreviewDialog PreviewDlg;
     }
 }
 

@@ -5,6 +5,8 @@ using System.Text;
 using System.Collections;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Printing;
 
 namespace AddingStripAsgmt
 {
@@ -161,6 +163,7 @@ namespace AddingStripAsgmt
             Array pArray = this.theCalcs.ToArray();
             StringBuilder sb = new StringBuilder();
             CalcLine clValue;
+            this.saved = true;
 
             for (int i = 0; i < pArray.Length; i++)
             {
@@ -192,6 +195,7 @@ namespace AddingStripAsgmt
         {
             lstDisplay.DataSource = null;
             this.theCalcs.Clear(); //Clear the ArrayList
+            this.saved = true;
 
             StreamReader sr = new StreamReader(filename);
             string addStripData = sr.ReadLine();
@@ -251,6 +255,58 @@ namespace AddingStripAsgmt
             }
 
             sr.Close();//Close Stream Reader
+        }
+
+        /// <summary>
+        /// Prints the lines of the calculation object using a print preview form to display the printout.
+        /// </summary>
+        /// <param name="e">PrintPageEventArgs</param>
+        public void printPage(PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int linesSoFarHeading = 0;
+            int amountOfAddStripPrinted = 0, pagesAmountExpected = 1;
+            Font textFont = new Font("Arial", 10, FontStyle.Regular);
+            Font textFontCenter = new Font("Arial", 10, FontStyle.Regular);
+            Font totalSubtotal = new Font("Arial", 10, FontStyle.Bold);
+            Font headingFont = new Font("Arial", 10, FontStyle.Bold);
+
+            Brush brush = new SolidBrush(Color.Black);
+            //margins
+            int leftMargin = e.MarginBounds.Left;
+            int topMargin = e.MarginBounds.Top;
+            int headingLeftMargin = 20;
+
+            int topMarginDetails = topMargin + 70;
+            int rightMargin = e.MarginBounds.Right;
+
+            g.DrawString("Caculations: ", headingFont, brush, headingLeftMargin, topMargin);
+            linesSoFarHeading++;
+            linesSoFarHeading++;
+            linesSoFarHeading++;
+                        
+            if (this.theCalcs.Count > 0)
+            {
+                foreach (CalcLine cl in this.theCalcs)
+                {
+                    linesSoFarHeading++;
+                    g.DrawString("\t" + cl.ToString(), headingFont, brush, headingLeftMargin, topMargin + (linesSoFarHeading * textFont.Height));
+                }
+
+                linesSoFarHeading++;
+                linesSoFarHeading++;
+                linesSoFarHeading++;
+            }
+            amountOfAddStripPrinted++;
+
+            if (!(amountOfAddStripPrinted == pagesAmountExpected))
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                amountOfAddStripPrinted = 0;
+            }
         }
     }
 }
