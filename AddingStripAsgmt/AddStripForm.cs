@@ -44,7 +44,7 @@ namespace AddingStripAsgmt
             int txtChangeValueLength = txtChangeValue.Text.Length;
             if (txtChangeValueLength > 1 && !double.TryParse(txtChangeValue.Text.Substring(1, txtChangeValueLength - 1), out otxtValue))
             {
-                MessageBox.Show("The value of following a operator must be a number!");
+                MessageBox.Show("Please enter a number after the begining operator.");
             }
             else if (lstDisplay.Items.Count > 0 && txtChangeValueLength > 1)
             {
@@ -62,7 +62,7 @@ namespace AddingStripAsgmt
                 }
                 else
                 {
-                    MessageBox.Show("The first character must be one of +,-,*,/");
+                    MessageBox.Show("First data entry must use either '+' or '-' as the begining operator.");
                 }
             }
             else
@@ -109,7 +109,7 @@ namespace AddingStripAsgmt
 
             if (txtChangeValueLength > 1 && !double.TryParse(txtChangeValue.Text.Substring(1, txtChangeValueLength - 1), out otxtValue))
             {
-                MessageBox.Show("The value of following a operator must be a number!");
+                MessageBox.Show("Please enter a number after the begining operator.");
             }
             else if (lstDisplay.Items.Count > 0 && txtChangeValueLength > 1)
             {
@@ -123,7 +123,7 @@ namespace AddingStripAsgmt
                 }
                 else
                 {
-                    MessageBox.Show("The first character must be one of +,-,*,/");
+                    MessageBox.Show("First data entry must use either '+' or '-' as the begining operator.");
                 }
             }
             else
@@ -260,19 +260,25 @@ namespace AddingStripAsgmt
             if (e.KeyCode == Keys.Enter)
             {
                 int txtValueLength = txtValue.Text.Length;
-                if (txtValueLength > 0 && (txtValue.Text[0] != '+' && txtValue.Text[0] != '-') && cal.obtainTheCalsSize() == 0)
+                if (cal.obtainTheCalsSize() == 0 && (txtValue.Text.IndexOf('#') != -1 || txtValue.Text.IndexOf('=') != -1))
                 {
-                    MessageBox.Show("The first character may only be +, - or the Enter key!");
+                    MessageBox.Show("No Caculation available. \n So no subtotal or total can be displayed.");
                     return;
                 }
-                else if (txtValueLength == 0 && cal.obtainTheCalsSize() == 0)
+                else  if (txtValueLength == 0 && cal.obtainTheCalsSize() == 0)
                 {
-                    MessageBox.Show("There no caculations!");
+                    MessageBox.Show("No Caculation available. Enter key is not allowed.");
+                    return;
+                }
+                else if (txtValueLength > 0 && (txtValue.Text[0] != '+' && txtValue.Text[0] != '-') && cal.obtainTheCalsSize() == 0)
+                {
+                    MessageBox.Show("First data entry must use either '+' or '-' as the begining operator.");
                     return;
                 }
                 else
                 {
-                    if (Regex.IsMatch(txtValue.Text, @"^+\-*") && txtValueLength > 1)
+                    char firstCharacter = txtValue.Text[0];
+                    if (txtValueLength > 1 && (firstCharacter == '+' || firstCharacter == '-' || firstCharacter == '*' || firstCharacter == '/'))
                     {
                         double otxtValue = 0;
                         if (double.TryParse(txtValue.Text.Substring(1), out otxtValue))
@@ -289,13 +295,20 @@ namespace AddingStripAsgmt
                         }
                         else
                         {
-                            MessageBox.Show("The value of following a operator must be a number!");
+                            MessageBox.Show("Please enter a number after the begining operator.");
                         }
                         
                     }
                     else if (txtValueLength == 1 && txtValue.Text.Equals("="))
                     {
                         CalcLine cl = new CalcLine("=");
+                        cl.total = cal.obtainTotal();
+                        cal.Add(cl);
+                        this.ActiveControl = null;
+                    }
+                    else if (txtValueLength == 1 && txtValue.Text.Equals("#"))
+                    {
+                        CalcLine cl = new CalcLine("#");
                         cl.total = cal.obtainTotal();
                         cal.Add(cl);
                         this.ActiveControl = null;
@@ -316,7 +329,7 @@ namespace AddingStripAsgmt
             if (txtValueLenght > 0)
             {
                 char firstCharacter = txtValue.Text[0];
-                if (cal.obtainTheCalsSize() == 0 && (firstCharacter == '+' || firstCharacter == '-'))
+                if (cal.obtainTheCalsSize() == 0 && (firstCharacter == '+' || firstCharacter == '-' || firstCharacter == '#' || firstCharacter == '='))
                 {
                     if (txtValueLenght > 1)
                     {
@@ -334,9 +347,13 @@ namespace AddingStripAsgmt
                         addNewRowToArrayList(lastCharacter);
                     }
                 }
+                else if (cal.obtainTheCalsSize() > 0)
+                {
+                    MessageBox.Show("Incorrect data format.");
+                }
                 else
                 {
-                    MessageBox.Show("The first character may only be +, - or the Enter key!");
+                    MessageBox.Show("First data entry must use either '+' or '-' as the begining operator.");
                 }
             }
         }
@@ -389,14 +406,15 @@ namespace AddingStripAsgmt
         {
             int txtValueLenght = txtValue.Text.Length;
             double otxtValue = 0;
-            
+
+            if (txtValueLenght > 1 && !double.TryParse(txtValue.Text.Substring(1, txtValueLenght - 2 > 1 ? txtValueLenght - 2 : 1), out otxtValue))
+            {
+                MessageBox.Show("Please enter a number after the begining operator.");
+                return;
+            }
+
             if (lastCharacter == '+' || lastCharacter == '-' || lastCharacter == '*' || lastCharacter == '/')
             {
-                if (txtValueLenght > 1 && !double.TryParse(txtValue.Text.Substring(1, txtValueLenght - 2 > 1 ? txtValueLenght - 2 : 1), out otxtValue))
-                {
-                    MessageBox.Show("The value of following a operator must be a number!");
-                    return;
-                }
                 CalcLine cl = new CalcLine(txtValue.Text.Substring(0, txtValueLenght - 1));
                 cal.Add(cl);
 
@@ -404,12 +422,7 @@ namespace AddingStripAsgmt
                 this.ActiveControl = null;
             }
             else if (lastCharacter == '#' || lastCharacter == '=')
-            {
-                if (txtValueLenght > 1 && !double.TryParse(txtValue.Text.Substring(1, txtValueLenght - 2 > 1 ? txtValueLenght - 2 : 1), out otxtValue))
-                {
-                    MessageBox.Show("The value of following a operator must be a number!");
-                    return;
-                }
+            {                
                 CalcLine cl = new CalcLine(txtValue.Text.Substring(0, txtValueLenght - 1));
                 cal.Add(cl);
 
